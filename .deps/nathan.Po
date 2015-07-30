@@ -1,5 +1,4 @@
-nathan.o: nathan.cpp \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/SnowUtils.h \
+nathan.o: nathan.cpp ../SnowTools/src/SnowTools/SnowUtils.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/string \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/x86_64-redhat-linux/bits/c++config.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/x86_64-redhat-linux/bits/os_defines.h \
@@ -176,7 +175,7 @@ nathan.o: nathan.cpp \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/random.tcc \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/numeric \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_numeric.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/gzstream.h \
+ ../SnowTools/src/SnowTools/gzstream.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/iostream \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/fstream \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/codecvt.h \
@@ -185,7 +184,7 @@ nathan.o: nathan.cpp \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/fstream.tcc \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/samtools/samtools_1.2/include/zlib.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/samtools/samtools_1.2/include/zconf.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/GenomicRegion.h \
+ ../SnowTools/src/SnowTools/GenomicRegion.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/list \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_list.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/list.tcc \
@@ -205,13 +204,12 @@ nathan.o: nathan.cpp \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/shared_ptr_base.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/ext/aligned_buffer.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/backward/auto_ptr.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/SnowToolsCommon.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/sam.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/BamWalker.h \
+ ../SnowTools/src/SnowTools/SnowToolsCommon.h \
+ ../SnowTools/src/htslib/htslib/sam.h \
+ ../SnowTools/src/htslib/htslib/hts.h \
+ ../SnowTools/src/SnowTools/BamWalker.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cassert \
- /usr/include/assert.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/MiniRules.h \
+ /usr/include/assert.h ../SnowTools/src/SnowTools/MiniRules.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/unordered_map \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/hashtable.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/hashtable_policy.h \
@@ -243,35 +241,30 @@ nathan.o: nathan.cpp \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/regex_compiler.tcc \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/regex_executor.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/regex_executor.tcc \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/GenomicRegionCollection.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/IntervalTree.h \
- /home/unix/nhan/Code/SnowTools/src/GenomicRegionCollection.cpp \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/GenomicRegionCollection.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/gzstream.h \
+ ../SnowTools/src/SnowTools/GenomicRegionCollection.h \
+ ../SnowTools/src/SnowTools/IntervalTree.h \
+ ../SnowTools/src/GenomicRegionCollection.cpp \
+ ../SnowTools/src/SnowTools/GenomicRegionCollection.h \
+ ../SnowTools/src/SnowTools/gzstream.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/set \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_tree.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_set.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_multiset.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/BamRead.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/bgzf.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/kstring.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/faidx.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts_defs.h \
- /home/unix/nhan/Code/SnowTools/src/multifast-v1.4.2/ahocorasick/ahocorasick.h \
- /home/unix/nhan/Code/SnowTools/src/multifast-v1.4.2/ahocorasick/actypes.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/BWAWrapper.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bwa.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bwt.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bwt.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/kseq.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/utils.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bwamem.h \
- /home/unix/nhan/Code/SnowTools/src/bwa/bwa.h
+ ../SnowTools/src/SnowTools/BamRead.h \
+ ../SnowTools/src/htslib/htslib/hts.h \
+ ../SnowTools/src/htslib/htslib/bgzf.h \
+ ../SnowTools/src/htslib/htslib/kstring.h \
+ ../SnowTools/src/htslib/htslib/faidx.h \
+ ../SnowTools/src/htslib/htslib/hts_defs.h \
+ ../SnowTools/src/multifast-v1.4.2/ahocorasick/ahocorasick.h \
+ ../SnowTools/src/multifast-v1.4.2/ahocorasick/actypes.h \
+ ../SnowTools/src/SnowTools/BWAWrapper.h ../SnowTools/src/bwa/bwa.h \
+ ../SnowTools/src/bwa/bntseq.h ../SnowTools/src/bwa/bwt.h \
+ ../SnowTools/src/bwa/bwt.h ../SnowTools/src/bwa/bntseq.h \
+ ../SnowTools/src/bwa/kseq.h ../SnowTools/src/bwa/utils.h \
+ ../SnowTools/src/bwa/bwamem.h ../SnowTools/src/bwa/bwa.h
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/SnowUtils.h:
+../SnowTools/src/SnowTools/SnowUtils.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/string:
 
@@ -677,7 +670,7 @@ nathan.o: nathan.cpp \
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_numeric.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/gzstream.h:
+../SnowTools/src/SnowTools/gzstream.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/iostream:
 
@@ -695,7 +688,7 @@ nathan.o: nathan.cpp \
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/samtools/samtools_1.2/include/zconf.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/GenomicRegion.h:
+../SnowTools/src/SnowTools/GenomicRegion.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/list:
 
@@ -735,19 +728,19 @@ nathan.o: nathan.cpp \
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/backward/auto_ptr.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/SnowToolsCommon.h:
+../SnowTools/src/SnowTools/SnowToolsCommon.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/sam.h:
+../SnowTools/src/htslib/htslib/sam.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h:
+../SnowTools/src/htslib/htslib/hts.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/BamWalker.h:
+../SnowTools/src/SnowTools/BamWalker.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cassert:
 
 /usr/include/assert.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/MiniRules.h:
+../SnowTools/src/SnowTools/MiniRules.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/unordered_map:
 
@@ -811,15 +804,15 @@ nathan.o: nathan.cpp \
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/regex_executor.tcc:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/GenomicRegionCollection.h:
+../SnowTools/src/SnowTools/GenomicRegionCollection.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/IntervalTree.h:
+../SnowTools/src/SnowTools/IntervalTree.h:
 
-/home/unix/nhan/Code/SnowTools/src/GenomicRegionCollection.cpp:
+../SnowTools/src/GenomicRegionCollection.cpp:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/GenomicRegionCollection.h:
+../SnowTools/src/SnowTools/GenomicRegionCollection.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/gzstream.h:
+../SnowTools/src/SnowTools/gzstream.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/set:
 
@@ -829,38 +822,38 @@ nathan.o: nathan.cpp \
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_multiset.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/BamRead.h:
+../SnowTools/src/SnowTools/BamRead.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h:
+../SnowTools/src/htslib/htslib/hts.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/bgzf.h:
+../SnowTools/src/htslib/htslib/bgzf.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/kstring.h:
+../SnowTools/src/htslib/htslib/kstring.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/faidx.h:
+../SnowTools/src/htslib/htslib/faidx.h:
 
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts_defs.h:
+../SnowTools/src/htslib/htslib/hts_defs.h:
 
-/home/unix/nhan/Code/SnowTools/src/multifast-v1.4.2/ahocorasick/ahocorasick.h:
+../SnowTools/src/multifast-v1.4.2/ahocorasick/ahocorasick.h:
 
-/home/unix/nhan/Code/SnowTools/src/multifast-v1.4.2/ahocorasick/actypes.h:
+../SnowTools/src/multifast-v1.4.2/ahocorasick/actypes.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/BWAWrapper.h:
+../SnowTools/src/SnowTools/BWAWrapper.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bwa.h:
+../SnowTools/src/bwa/bwa.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h:
+../SnowTools/src/bwa/bntseq.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bwt.h:
+../SnowTools/src/bwa/bwt.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bwt.h:
+../SnowTools/src/bwa/bwt.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h:
+../SnowTools/src/bwa/bntseq.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/kseq.h:
+../SnowTools/src/bwa/kseq.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/utils.h:
+../SnowTools/src/bwa/utils.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bwamem.h:
+../SnowTools/src/bwa/bwamem.h:
 
-/home/unix/nhan/Code/SnowTools/src/bwa/bwa.h:
+../SnowTools/src/bwa/bwa.h:
