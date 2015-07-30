@@ -191,12 +191,6 @@ nathan.o: nathan.cpp \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/list.tcc \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cstring \
  /usr/include/string.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/SnowToolsCommon.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/sam.h \
- /home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h \
- /home/unix/nhan/Code/SnowTools/src/SnowTools/BamWalker.h \
- /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cassert \
- /usr/include/assert.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/memory \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_raw_storage_iter.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/typeinfo \
@@ -211,6 +205,12 @@ nathan.o: nathan.cpp \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/shared_ptr_base.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/ext/aligned_buffer.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/backward/auto_ptr.h \
+ /home/unix/nhan/Code/SnowTools/src/SnowTools/SnowToolsCommon.h \
+ /home/unix/nhan/Code/SnowTools/src/htslib/htslib/sam.h \
+ /home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h \
+ /home/unix/nhan/Code/SnowTools/src/SnowTools/BamWalker.h \
+ /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cassert \
+ /usr/include/assert.h \
  /home/unix/nhan/Code/SnowTools/src/SnowTools/MiniRules.h \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/unordered_map \
  /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/hashtable.h \
@@ -263,6 +263,7 @@ nathan.o: nathan.cpp \
  /home/unix/nhan/Code/SnowTools/src/SnowTools/BWAWrapper.h \
  /home/unix/nhan/Code/SnowTools/src/bwa/bwa.h \
  /home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h \
+ /home/unix/nhan/Code/SnowTools/src/bwa/bwt.h \
  /home/unix/nhan/Code/SnowTools/src/bwa/bwt.h \
  /home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h \
  /home/unix/nhan/Code/SnowTools/src/bwa/kseq.h \
@@ -706,18 +707,6 @@ nathan.o: nathan.cpp \
 
 /usr/include/string.h:
 
-/home/unix/nhan/Code/SnowTools/src/SnowTools/SnowToolsCommon.h:
-
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/sam.h:
-
-/home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h:
-
-/home/unix/nhan/Code/SnowTools/src/SnowTools/BamWalker.h:
-
-/broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cassert:
-
-/usr/include/assert.h:
-
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/memory:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/bits/stl_raw_storage_iter.h:
@@ -745,6 +734,18 @@ nathan.o: nathan.cpp \
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/ext/aligned_buffer.h:
 
 /broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/backward/auto_ptr.h:
+
+/home/unix/nhan/Code/SnowTools/src/SnowTools/SnowToolsCommon.h:
+
+/home/unix/nhan/Code/SnowTools/src/htslib/htslib/sam.h:
+
+/home/unix/nhan/Code/SnowTools/src/htslib/htslib/hts.h:
+
+/home/unix/nhan/Code/SnowTools/src/SnowTools/BamWalker.h:
+
+/broad/software/free/Linux/redhat_5_x86_64/pkgs/gcc_4.9.0/include/c++/4.9.0/cassert:
+
+/usr/include/assert.h:
 
 /home/unix/nhan/Code/SnowTools/src/SnowTools/MiniRules.h:
 
@@ -849,6 +850,8 @@ nathan.o: nathan.cpp \
 /home/unix/nhan/Code/SnowTools/src/bwa/bwa.h:
 
 /home/unix/nhan/Code/SnowTools/src/bwa/bntseq.h:
+
+/home/unix/nhan/Code/SnowTools/src/bwa/bwt.h:
 
 /home/unix/nhan/Code/SnowTools/src/bwa/bwt.h:
 
