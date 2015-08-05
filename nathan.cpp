@@ -5,148 +5,179 @@
 #include <iostream> 
 #include <string>
 #include <vector>
+#include <ctime>
+#include <unordered_map>
+#include <fstream>
 
 // TODO
 // 1) Write the alignments to BAM (viral, etc)
+//    keep track of entry names
 // 2) look up std::unordered_map. Use this to keep track of number of alignments per virus, etc
 // 3) find way to filter secondary alignments so you only keep good ones. Map Q? Length of match? NM tag? etc
+// 5) command line options
+// 6) build index bac
+// 8) SW, BLAST integration
+// 9) error management: if no cigar, no seq, etc
+
+// misc stuff
+// small test contig file: /home/unix/nhan/fixed.tttt.contigs.sort.bam"
 
 using namespace std;
 
+const time_t ctt = time(0);
+
 int main(int argc, char** argv) {
   
-  //verify no funky compile issues
-  cout << "test Thur 2:28pm" << endl;
+  //get time and print it to verify latest version
+  cout << "test combine " << asctime(localtime(&ctt)) << endl;
 
-  //set up some dependencies for BamWalker raw data parsing
-  //string contigBamPath = "/home/unix/nhan/fixed.tttt.contigs.sort.bam"; //input file path here, contains contigs to search for
+  //set up BamWalker input reader dependencies
   string contigBamPath = "/home/unix/jwala/tmp.contigs.bam"; //input file path here, contains contigs to search for
-  SnowTools::BamWalker contigBamParser(contigBamPath); //create structure to extract contigs from bam
-  SnowTools::BamRead contig; //create structure to store extracted contigs
-  bool isReadValid; //ie is the contig I just read in not messed up?
+  SnowTools::BamWalker contigBamParser(contigBamPath); //construct BamWalker object to extract contigs from bam
+  SnowTools::BamRead contig; //construct container to store extracted contigs
+  bool isReadValid; //is the contig I just read in not messed up?
+ 
+  //set up BWA alignment algorithm and BamWalker output writer dependencies
+  //declare a few alignment function arguments ahead of time
+  bool areSecondaryAlignsKept = false; //yes I should keep less likely alignments
+  SnowTools::BamReadVector refseqSearchResultTempContainer, virusesSearchResultTempContainer, TEeukSearchResultTempContainer, TEallSearchResultTempContainer; //store alignments here
+  //fetch refseq db
+  SnowTools::BWAWrapper searchRefseq; //construct BWA object
+  string refseqPath = "/seq/references/Homo_sapiens_assembly19/v1/Homo_sapiens_assembly19.fasta"; //file path to db
+  searchRefseq.retrieveIndex(refseqPath); //tell BWA object to load this path's index in anticipation of alignment job
+  //init refseq results filewriter
+  bam_hdr_t * refseq_header = searchRefseq.HeaderFromIndex(); //construct bam header from index and store in container object
+  SnowTools::BamWalker refseq_writer; //construct output bam filewriter object
+  refseq_writer.SetWriteHeader(refseq_header); //feed bam header into filewriter
+  refseq_writer.OpenWriteBam("realignmentToReference.bam"); //physically open output file stream
+  //fetch viruses db
+  SnowTools::BWAWrapper searchViruses;
+  string virusesPath = "/home/unix/jwala/SnowmanFilter/viral.1.1.genomic.fna";
+  searchViruses.retrieveIndex(virusesPath);
+  //init viruses results filewriter
+  bam_hdr_t * viruses_header = searchViruses.HeaderFromIndex();
+  SnowTools::BamWalker viruses_writer;
+  viruses_writer.SetWriteHeader(viruses_header);
+  viruses_writer.OpenWriteBam("realignmentToViruses.bam");
+  //fetch repbase TE db (all euks)
+  SnowTools::BWAWrapper searchTEeuk;
+  string TEeukPath = "/home/unix/nhan/Repbase/repbase_euk.fasta"
+  searchTEeuk.retrieveIndex(TEeukPath);
+  //init repbase TE results filewriter
+  bam_hdr_t * TEeuk_header = searchTEeuk.HeaderFromIndex();
+  SnowTools::BamWalker TEeuk_writer;
+  TEeuk_writer.SetWriteHeader(TEeuk_header);
+  TEeuk_writer.OpenWriteBam("realignmentToTEeuk.bam");
+  //fetch repeatmasker TE db (humans only)
+  SnowTools::BWAWrapper searchTEall;
+  string TEallPath = "/home/unix/jwala/SnowmanFilter/repeatmasker/RepeatMasker/Libraries/20110419/homo_sapiens/all.rep.fa";
+  searchTEall.retrieveIndex(TEallPath);
+  //init repeatmasker TE results filewriter
+  bam_hdr_t * TEall_header = searchTEall.HeaderFromIndex();
+  SnowTools::BamWalker TEall_writer;
+  TEall_writer.SetWriteHeader(TEall_header);
+  TEall_writer.OpenWriteBam("realignmentToTEall.bam");
 
-  //set up some dependencies for BWA search/alignment
-  SnowTools::BWAWrapper searchRefseq; //create structure to prep + execute search on refseq                                                       
-  string refseqPath = "/seq/references/Homo_sapiens_assembly19/v1/Homo_sapiens_assembly19.fasta"; //file path to refseq
-  searchRefseq.retrieveIndex(refseqPath); //load-in refseq index to prepare for search
-  
-  SnowTools::BWAWrapper searchViruses; //create structure to prep + execute search on viruses
-  string virusesPath = "/home/unix/jwala/SnowmanFilter/viral.1.1.genomic.fna"; //file path to virus db
-  searchViruses.retrieveIndex(virusesPath); //load-in viruses index to prepare for search
+  //declare CIGAR parsing and clipped sequence extraction dependencies ahead of time
+  SnowTools::Cigar Cig; //for storing CIGAR string from contig
+  string entireContigSeq, clippedContigSeq; //for storing complete contig sequence, for storing clipped segment only
+  int positionCounter; //keeps track of CIGAR lengths cumulatively
+  string origContigQname, modifiedQname; //for storing original name of contig, for storing auto-generated name of child segment
+  int QnameCounter; //appendix used to generate name of child segment logically
 
-  //SnowTools::BWAWrapper searchBac; //create structure to prep + execute search on bacteria
-  //string bacPath = "/home/unix/jwala/SnowmanFilter/viral.bacteria.fa"; //file path to bacteria db
-  //searchBac.retrieveIndex(bacPath); //load-in bacteria index to prepare for search
-  
-  //SnowTools::BWAWrapper searchTE; //transposable elements, part 1
-  //string TEPath = "/home/unix/jwala/SnowmanFilter/repeatmasker/RepeatMasker/Libraries/20110419/homo_sapiens/longlib";
-  //searchTE.retrieveIndex(TEPath);
+  //open filewriter to store clipped segments before further processing in FASTA data file
+  remove("clips.fasta"); //kill file if it exists already
+  Ofstream clippedContigSeq_writer;
+  clippedContigSeq_writer.open("clips.fasta"); //create new version of now-deleted file
 
-  // make BAM headers for database
-  bam_hdr_t * reference_header = searchRefseq.HeaderFromIndex();
-  //bam_hdr_t * virus_header = searchViruses.HeaderFromIndex();
-  
-  // make a bam walker for writing new alignments
-  SnowTools::BamWalker my_writer;
-  my_writer.SetWriteHeader(reference_header);
-  my_writer.OpenWriteBam("realignmentToReference.bam");
-  
-  bool areSecondaryAlignsKept = true; //ie yes I should keep worse matches of search
+  //init progress updates
+  std::cerr << "Starting contig parsing from bam..."  << std::endl;
+  int readcounter = 0;
+  int validreads = 0;
+  //
 
-  //set up some dependencies for CIGAR-specific parsing
-  //for storing clipped seqs:
-  SnowTools::Cigar Cig;
-  string entireContigSeq;
-  vector<string> clippedContigSeqs;
-  int positionCounter;
-  //for storing Qnames in parallel:
-  string origContigQname, modifiedQname;
-  vector<string> Qnames;
-  int QnameCounter;
-
-  //set up some containers for actual BWA search
-  SnowTools::BamReadClusterVector refseqSearchResultContainer, virusesSearchResultContainer, bacSearchResultContainer;
-  SnowTools::BamReadVector refseqSearchResultTempContainer, virusesSearchResultTempContainer, bacSearchResultTempContainer;
-
-  std::cerr << "...Staring contig parsing from bam"  << std::endl;
-  int counter = 0;
-  int read_valid = 0;
-
-  //actual program starts here
+  //actual processing starts here
   //perform the BAMWalk read-in of next contig
   while (contigBamParser.GetNextRead(contig,isReadValid)) {
     
-    if (++counter % 10 == 0)
-      std::cerr << "...working on read " << counter << " which is " << contig << " of total of " << read_valid << " valid reads so far " << std::endl;
-    if (isReadValid)
-      ++read_valid;
-    
+    ++readcounter;
+
+    //print progress update
+    if (readcounter % 10 == 0)
+      std::cerr << "...working on read " << readcounter << " which is " << contig << " of total of " << validreads << " valid reads so far " << std::endl;
+    //
 
     if (isReadValid) {
 
-	  //store this contig's sequence, qname, and CIGAR into variables
-	  entireContigSeq = contig.Sequence();
-	  origContigQname = contig.Qname();
-      SnowTools::Cigar Cig = contig.GetCigar();
+      ++validreads;
+
+      //store this contig's raw sequence, qname, and CIGAR into containers
+      entireContigSeq = contig.Sequence();
+      origContigQname = contig.Qname();
+      Cig = contig.GetCigar();
       //reset some counters
-	  positionCounter = 0;//cumulative length tracker (needed since CIG lengths are split ex 129M29S)
-	  QnameCounter = 0;//generates appendices to keep modified Qnames unique
+      positionCounter = 0;
+      QnameCounter = 1;
 
-
-      //extract clipped sequence segments from contig, Qnames in parallel
-      //store both in string vectors
+      //for every CIGAR phrase in CIGAR
       for (int i = 0; i < Cig.size(); i++) {
 
-      	if (Cig[i].Type == 'S') {
-      		clippedContigSeqs.push_back(entireContigSeq.substr(positionCounter, Cig[i].Length));
-      		positionCounter+=Cig[i].Length;
+        /*need to deal with 25M1D25S here*/
+        //if it's a softclip
+        if (Cig[i].Type == 'S') {
+          
+          //extract clipped sequence segments from contig
+          clippedContigSeq = entireContigSeq.substr(positionCounter, Cig[i].Length);
+          positionCounter+=Cig[i].Length;
+          modifiedQname = origContigQname.append(to_string(QnameCounter));
+          QnameCounter++;
 
-      		modifiedQname = origContigQname.append(to_string(QnameCounter));
-      		Qnames.push_back(modifiedQname);
-      		QnameCounter++;
-      	}
+          //add clipped sequence segments to intermediate FASTA data file
+          clippedContigSeq_writer << ">" << modifiedQname << endl << clippedContigSeq << endl << endl;
 
-      	else {
-      		positionCounter+=Cig[i].Length;
-      	}
+          //look them up in DBs with BWA
+          searchRefseq.alignSingleSequence(clippedContigSeq, modifiedQname, refseqSearchResultTempContainer, areSecondaryAlignsKept);
+          searchViruses.alignSingleSequence(clippedContigSeq, modifiedQname, virusesSearchResultTempContainer, areSecondaryAlignsKept);
+          searchTEeuk.alignSingleSequence(clippedContigSeq, modifiedQname, TEeukSearchResultTempContainer, areSecondaryAlignsKept);
+          searchTEall.alignSingleSequence(clippedContigSeq, modifiedQname, TEallSearchResultTempContainer, areSecondaryAlignsKept);
+
+          //write alignment results to bam files
+          for (auto& result : refseqSearchResultTempContainer) {
+            result.AddIntTag("RA", refseqSearchResultTempContainer.size());
+            refseq_writer.WriteAlignment(result); // pass this a BamRead
+          }
+          for (auto& result : virusesSearchResultTempContainer) {
+            result.AddIntTag("RA", virusesSearchResultTempContainer.size());
+            viruses_writer.WriteAlignment(result); // pass this a BamRead
+          }
+          for (auto& result : TEeukSearchResultTempContainer) {
+            result.AddIntTag("RA", TEeukSearchResultTempContainer.size());
+            TEeuk_writer.WriteAlignment(result); // pass this a BamRead
+          }
+          for (auto& result : TEallSearchResultTempContainer) {
+            result.AddIntTag("RA", TEallSearchResultTempContainer.size());
+            TEall_writer.WriteAlignment(result); // pass this a BamRead
+          }
+
+        }
+
+        else {
+
+          positionCounter+=Cig[i].Length;
+
+        }
 
       }
-      
-      //perform BWA search on databases
-      //store results in second permanent container
-      for (int i = 0; i < clippedContigSeqs.size(); i++) {
 
-      	//search on refseq
-      	searchRefseq.alignSingleSequence(clippedContigSeqs[i],Qnames[i],refseqSearchResultTempContainer, areSecondaryAlignsKept);
-      	//refseqSearchResultContainer.push_back(refseqSearchResultTempContainer);
-      	//search on viruses
-      	searchViruses.alignSingleSequence(clippedContigSeqs[i],Qnames[i],virusesSearchResultTempContainer,areSecondaryAlignsKept);
-      	//virusesSearchResultContainer.push_back(virusesSearchResultTempContainer);
-      	//search on bacteria
-      	//searchBac.alignSingleSequence(clippedContigSeqs[i],Qnames[i],bacSearchResultTempContainer,areSecondaryAlignsKept);
-      	//bacSearchResultContainer.push_back(bacSearchResultTempContainer);
-
-	// 
-	
-
-	// example of getting string of "chr" or virus etc that query was aligned to
-	// check for segfault below
-	// std::string chr_name = std::string(reference_header->target_name[ refseqSearchResultTempContainer[0].ChrID()]);
-	
-	// to write the alignments out to a bam file
-	for (auto& i : refseqSearchResultTempContainer) {
-	  i.AddIntTag("RA", refseqSearchResultTempContainer.size());
-	  //i.AddIntTag("VA", refseqSearchResultTempContainer.size());
-	  my_writer.WriteAlignment(i); // pass this a BamRead
-	  break;
-	}
-
+  // example of getting string of "chr" or virus etc that query was aligned to
+  // check for segfault below
+  // std::string chr_name = std::string(reference_header->target_name[ refseqSearchResultTempContainer[0].ChrID()]);
+  
       }
 
     }
 
-  }
-
+  clippedContigSeq_writer.close();
   return 0;
 
 }
