@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
   viruses_writer.OpenWriteBam("realignmentToViruses.bam");
   //fetch repbase TE db (all euks)
   SnowTools::BWAWrapper searchTEeuk;
-  string TEeukPath = "/home/unix/nhan/Repbase/repbase_euk.fasta"
+  string TEeukPath = "/home/unix/nhan/Repbase/repbase_euk.fasta";
   searchTEeuk.retrieveIndex(TEeukPath);
   //init repbase TE results filewriter
   bam_hdr_t * TEeuk_header = searchTEeuk.HeaderFromIndex();
@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 
   //open filewriter to store clipped segments before further processing in FASTA data file
   remove("clips.fasta"); //kill file if it exists already
-  Ofstream clippedContigSeq_writer;
+  ofstream clippedContigSeq_writer;
   clippedContigSeq_writer.open("clips.fasta"); //create new version of now-deleted file
 
   //init progress updates
