@@ -10,8 +10,6 @@
 #include <fstream>
 
 // TODO
-// 1) Write the alignments to BAM (viral, etc)
-//    keep track of entry names
 // 2) look up std::unordered_map. Use this to keep track of number of alignments per virus, etc
 // 3) find way to filter secondary alignments so you only keep good ones. Map Q? Length of match? NM tag? etc
 // 5) command line options
@@ -103,7 +101,7 @@ int main(int argc, char** argv) {
     ++readcounter;
 
     //print progress update
-    if (readcounter % 10 == 0)
+    if (readcounter % 50 == 0)
       std::cerr << "...working on read " << readcounter << " which is " << contig << " of total of " << validreads << " valid reads so far " << std::endl;
     //
 
@@ -129,7 +127,7 @@ int main(int argc, char** argv) {
           //extract clipped sequence segments from contig
           clippedContigSeq = entireContigSeq.substr(positionCounter, Cig[i].Length);
           positionCounter+=Cig[i].Length;
-          modifiedQname = origContigQname.append(to_string(QnameCounter));
+          modifiedQname = origContigQname.append('.' + to_string(QnameCounter));
           QnameCounter++;
 
           //add clipped sequence segments to intermediate FASTA data file
@@ -142,26 +140,34 @@ int main(int argc, char** argv) {
           searchTEall.alignSingleSequence(clippedContigSeq, modifiedQname, TEallSearchResultTempContainer, areSecondaryAlignsKept);
 
           //write alignment results to bam files
-          for (auto& result : refseqSearchResultTempContainer) {
-            result.AddIntTag("RA", refseqSearchResultTempContainer.size());
-            refseq_writer.WriteAlignment(result); // pass this a BamRead
+          if (refseqSearchResultTempContainer.size() > 0) {
+            for (auto& result : refseqSearchResultTempContainer) {
+              result.AddIntTag("RA", refseqSearchResultTempContainer.size());
+              refseq_writer.WriteAlignment(result); // pass this a BamRead
+            }
           }
-          for (auto& result : virusesSearchResultTempContainer) {
-            result.AddIntTag("RA", virusesSearchResultTempContainer.size());
-            viruses_writer.WriteAlignment(result); // pass this a BamRead
+          if (refseqSearchResultTempContainer.size() > 0) {  
+            for (auto& result : virusesSearchResultTempContainer) {
+              result.AddIntTag("RA", virusesSearchResultTempContainer.size());
+              viruses_writer.WriteAlignment(result); // pass this a BamRead
+            }
           }
-          for (auto& result : TEeukSearchResultTempContainer) {
-            result.AddIntTag("RA", TEeukSearchResultTempContainer.size());
-            TEeuk_writer.WriteAlignment(result); // pass this a BamRead
+          if (refseqSearchResultTempContainer.size() > 0) {
+            for (auto& result : TEeukSearchResultTempContainer) {
+              result.AddIntTag("RA", TEeukSearchResultTempContainer.size());
+              TEeuk_writer.WriteAlignment(result); // pass this a BamRead
+            }
           }
-          for (auto& result : TEallSearchResultTempContainer) {
-            result.AddIntTag("RA", TEallSearchResultTempContainer.size());
-            TEall_writer.WriteAlignment(result); // pass this a BamRead
+          if (refseqSearchResultTempContainer.size() > 0) {
+            for (auto& result : TEallSearchResultTempContainer) {
+              result.AddIntTag("RA", TEallSearchResultTempContainer.size());
+              TEall_writer.WriteAlignment(result); // pass this a BamRead
+            }
           }
 
         }
 
-        else {
+        else if (Cig[i].Type != 'D') {
 
           positionCounter+=Cig[i].Length;
 
