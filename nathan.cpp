@@ -18,7 +18,7 @@
 // 9) error management: if no cigar, no seq, etc
 
 // misc stuff
-// small test contig file: /home/unix/nhan/fixed.tttt.contigs.sort.bam"
+// small test contig file: /home/unix/nhan/snow/finalfixed.tttt.contigs.sort.bam and finalbig.contigs.bam
 
 using namespace std;
 
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
   bam_hdr_t * refseq_header = searchRefseq.HeaderFromIndex(); //construct bam header from index and store in container object
   SnowTools::BamWalker refseq_writer; //construct output bam filewriter object
   refseq_writer.SetWriteHeader(refseq_header); //feed bam header into filewriter
-  refseq_writer.OpenWriteBam("realignmentToReference.bam"); //physically open output file stream
+  refseq_writer.OpenWriteBam("/xchip/gistic/Nathan/output_writer_files/realignmentToReference.bam"); //physically open output file stream
   //fetch viruses db
   SnowTools::BWAWrapper searchViruses;
   string virusesPath = "/home/unix/jwala/SnowmanFilter/viral.1.1.genomic.fna";
@@ -56,16 +56,16 @@ int main(int argc, char** argv) {
   bam_hdr_t * viruses_header = searchViruses.HeaderFromIndex();
   SnowTools::BamWalker viruses_writer;
   viruses_writer.SetWriteHeader(viruses_header);
-  viruses_writer.OpenWriteBam("realignmentToViruses.bam");
+  viruses_writer.OpenWriteBam("/xchip/gistic/Nathan/output_writer_files/realignmentToViruses.bam");
   //fetch repbase TE db (all euks)
   SnowTools::BWAWrapper searchTEeuk;
-  string TEeukPath = "/home/unix/nhan/Repbase/repbase_euk.fasta";
+  string TEeukPath = "/xchip/gistic/Nathan/Repbase/repbase_euk.fasta";
   searchTEeuk.retrieveIndex(TEeukPath);
   //init repbase TE results filewriter
   bam_hdr_t * TEeuk_header = searchTEeuk.HeaderFromIndex();
   SnowTools::BamWalker TEeuk_writer;
   TEeuk_writer.SetWriteHeader(TEeuk_header);
-  TEeuk_writer.OpenWriteBam("realignmentToTEeuk.bam");
+  TEeuk_writer.OpenWriteBam("/xchip/gistic/Nathan/output_writer_files/realignmentToTEeuk.bam");
   //fetch repeatmasker TE db (humans only)
   SnowTools::BWAWrapper searchTEall;
   string TEallPath = "/home/unix/jwala/SnowmanFilter/repeatmasker/RepeatMasker/Libraries/20110419/homo_sapiens/all.rep.fa";
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
   bam_hdr_t * TEall_header = searchTEall.HeaderFromIndex();
   SnowTools::BamWalker TEall_writer;
   TEall_writer.SetWriteHeader(TEall_header);
-  TEall_writer.OpenWriteBam("realignmentToTEall.bam");
+  TEall_writer.OpenWriteBam("/xchip/gistic/Nathan/output_writer_files/realignmentToTEall.bam");
 
   //declare CIGAR parsing and clipped sequence extraction dependencies ahead of time
   SnowTools::Cigar Cig; //for storing CIGAR string from contig
@@ -84,9 +84,9 @@ int main(int argc, char** argv) {
   int QnameCounter; //appendix used to generate name of child segment logically
 
   //open filewriter to store clipped segments before further processing in FASTA data file
-  remove("clips.fasta"); //kill file if it exists already
+  remove("/xchip/gistic/Nathan/output_writer_files/clips.fasta"); //kill file if it exists already
   ofstream clippedContigSeq_writer;
-  clippedContigSeq_writer.open("clips.fasta"); //create new version of now-deleted file
+  clippedContigSeq_writer.open("/xchip/gistic/Nathan/output_writer_files/clips.fasta"); //create new version of now-deleted file
 
   //init progress updates
   std::cerr << "Starting contig parsing from bam..."  << std::endl;
